@@ -55,12 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/login", "/register", "/", "/getAllAds", "/category").permitAll()
-                .anyRequest().authenticated()
+                /*.anyRequest().authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)*/;
 
-        http.addFilterAfter(
-                new JwtAuthenticationFilter(jwtTokenProviderBean(), appUserDetailsService), BasicAuthenticationFilter.class);
+        /*http.addFilterAfter(
+                new JwtAuthenticationFilter(jwtTokenProviderBean(),
+                        appUserDetailsService), BasicAuthenticationFilter.class);*/
     }
 
 }
