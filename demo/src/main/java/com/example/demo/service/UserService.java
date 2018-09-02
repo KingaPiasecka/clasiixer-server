@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.User;
+import com.example.demo.dto.CurrentUser;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.exceptions.EmailExistsException;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,4 +45,17 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public CurrentUser getCurrentUser() {
+        CurrentUser currentUser = new CurrentUser();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = null;
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        }
+        String userName = userDetails.getUsername();
+        currentUser.setEmail(userName);
+        User byEmail = userRepository.findByEmail(userName);
+        currentUser.setUsername(byEmail.getUsername());
+        return currentUser;
+    }
 }

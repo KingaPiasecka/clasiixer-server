@@ -111,6 +111,21 @@ public class AdService {
         return notFilteredbyCustomWord;
     }
 
+    @Transactional
+    public List<Ad> getMyAds() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = null;
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        }
+        String username = userDetails.getUsername();
+        User byEmail = userRepository.findByEmail(username);
+        return  adRepository.findByUser(byEmail);
+    }
+
+    @Transactional
+
+
     private boolean customWord(AdFilterDTO adFilterDTO) {
         return adFilterDTO.getCustomWord() != null && !adFilterDTO.getCustomWord().isEmpty();
     }
@@ -130,5 +145,10 @@ public class AdService {
     private boolean locationAndCategory(AdFilterDTO adFilterDTO) {
         return (adFilterDTO.getLocation() != null && !adFilterDTO.getLocation().isEmpty()) &&
                 (adFilterDTO.getCategory() != null && !adFilterDTO.getCategory().isEmpty());
+    }
+
+    @Transactional
+    public void deleteAd(Long id) {
+        adRepository.deleteAdById(id);
     }
 }

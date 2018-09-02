@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthToken;
-import com.example.demo.dto.AuthUser;
-import com.example.demo.dto.TextResponse;
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.*;
 import com.example.demo.exceptions.EmailExistsException;
 import com.example.demo.providers.JwtTokenProvider;
 import com.example.demo.service.UserService;
@@ -54,4 +51,11 @@ public class UserController {
         authToken.setToken(token);
         return ResponseEntity.ok(authToken);
     }
+
+    @GetMapping(path =  "/currentUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CurrentUser> getCurrentUser() {
+        CurrentUser currentUser = userService.getCurrentUser();
+        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+    }
+
 }

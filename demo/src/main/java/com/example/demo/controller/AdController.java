@@ -48,4 +48,19 @@ public class AdController {
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/myAds", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Ad>> getFilteredAds() {
+        List<Ad> all = adService.getMyAds();
+        return new ResponseEntity<>(all, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/deleteAd/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TextResponse> getFilteredAds(@PathVariable Long id) {
+        LOGGER.info("delete");
+        TextResponse textResponse = new TextResponse();
+        textResponse.setMessage("Ad successfully deleted.");
+        adService.deleteAd(id);
+        return new ResponseEntity<>(textResponse, HttpStatus.OK);
+    }
+
 }
