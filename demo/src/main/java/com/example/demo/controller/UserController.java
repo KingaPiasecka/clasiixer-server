@@ -42,6 +42,7 @@ public class UserController {
         return new ResponseEntity<>(textResponse, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/login")
     public ResponseEntity loginUser(@RequestBody AuthUser authUser) {
         final Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authUser.getEmail(), authUser.getPassword()));
